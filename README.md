@@ -7,9 +7,11 @@ The following example sums the squares of the numbers 0-4 in parallel. The main 
 ```python
 from awsync import *
 
+# this function runs asynchronously in another lambda instance
 def square(c, i):
   push(c, i * i)
-  
+ 
+# entry point of the main lambda
 def main():
     total = 0 
 
