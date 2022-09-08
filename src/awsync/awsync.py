@@ -104,26 +104,3 @@ def lambda_handler(event: dict, context):
 
     # return the result
     return {"statusCode": 200, "body": json.dumps(result)}
-
-
-def square(c, i):
-    """ this code runs asynchronously in a different lambda instance """
-    push(c, i * i)
-
-    
-def main():
-    """This is the entry point of the first lambda instance"""
-
-    total = 0
-
-    # open a channel to communicate between lambda instances
-    with Channel() as c:
-        # spawn 5 new lambda instances to square each number in parallel
-        for i in range(5):
-            invoke(square, c, i)
-
-        # add the results from each lambda together 
-        for i in range(5):
-            total += pop(c) 
-
-    return total
