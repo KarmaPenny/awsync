@@ -1,0 +1,7 @@
+*.swp
+
+__pycahce__
+*.pyc
+
+.tox/
+*.egg-info/
