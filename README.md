@@ -2,7 +2,7 @@
 Provides golang style concurrency in AWS for python
 
 ### Usage
-The following example sums the squares of the numbers 0-4 in parallel. The main lambda spawns 5 new lambdas to calculate the square of each number and then adds the results together as they complete. A Channel object is used to push the results of each square operation to the main lambda.
+The following example sums the squares of the numbers 0-4 in parallel. The main lambda spawns 5 new lambdas to calculate the square of each number and then adds the results together as they complete. A Channel object is used to push the results of each square operation to the main lambda. Once all child lambdas are complete the main lambda returns the total value which becomes the response body.
 
 ```python
 from awsync import *
@@ -27,6 +27,26 @@ def main():
             total += pop(c) 
 
     return total
+```
+
+This example produces the following output when run in the AWS Console
+```
+Test Event Name
+TestMyFunction
+
+Response
+{
+  "statusCode": 200,
+  "body": "30"
+}
+
+Function Logs
+START RequestId: 44fd2bf2-4859-4fbe-84cf-6c2dac347e4b Version: $LATEST
+END RequestId: 44fd2bf2-4859-4fbe-84cf-6c2dac347e4b
+REPORT RequestId: 44fd2bf2-4859-4fbe-84cf-6c2dac347e4b	Duration: 4400.86 ms	Billed Duration: 4401 ms	Memory Size: 128 MB	Max Memory Used: 68 MB	Init Duration: 254.99 ms
+
+Request ID
+44fd2bf2-4859-4fbe-84cf-6c2dac347e4b
 ```
 
 ### How it works
